@@ -1,13 +1,15 @@
 var express = require('express');
 var app = express();
+var fs = require('fs');
+var parser = require('body-parser');
+var session = require('express-session');
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+app.use(express.static('public'));
+app.use(parser.json())
+app.use(session({secret: '#uk!t'}));
+
+require('./routers/router')(app);
 
 var server = app.listen(3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Server listening at port 3000');
 });
